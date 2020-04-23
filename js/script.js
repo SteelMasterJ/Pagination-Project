@@ -27,14 +27,36 @@ const itemsPerPage = 10;
        "invoke" the function 
 ***/
 
-
+//created showPage function, this accepts the list of students and the page number that we want to display. This hides any student list items that is not within the 10 item page.
+function showPage(list, page) {
+   const startIndex = (page * itemsPerPage) - itemsPerPage;
+   const endIndex = (page * itemsPerPage) - 1;
+   for (let i = 0; i < list.length; i++) {
+      if (i < startIndex || i > endIndex) {
+         list[i].style.display = 'none';
+      } else {
+         list[i].style.display = '';
+      }
+   }
+}
+//test log statement below
+//console.log(showPage(studentList, 2));
 
 
 /*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
+I made this function for DRY-er programming it just creates a new HTML element and assigns it a variable.
 ***/
+function createElement(element) {
+   const elementName = document.createElement('element');
+   return elementName;
+}
 
+function appendPageLinks(list) {
+   div = createElement('div');
+   div.className = 'pagination';
+}
+
+console.log(appendPageLinks());
 
 
 
