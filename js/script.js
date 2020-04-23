@@ -3,31 +3,14 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
 /*** 
 Added 2 global variables, per instructions this can be done only using 2 variables. The first stores all the list items and the second variable stores the number of li items to be shown per page, which is 10.
 ***/
 const studentList = document.querySelectorAll('li');
 const itemsPerPage = 10;
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-//created showPage function, this accepts the list of students and the page number that we want to display. This hides any student list items that is not within the 10 item page.
+//created showPage function, this accepts the list of students and the page number that we want to display. This hides any student list items that is not within the 10 item page that is active.
 function showPage(list, page) {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = (page * itemsPerPage) - 1;
@@ -39,26 +22,51 @@ function showPage(list, page) {
       }
    }
 }
-//test log statement below
-//console.log(showPage(studentList, 2));
+const newLocal = '';
 
 
 /*** 
-I made this function for DRY-er programming it just creates a new HTML element and assigns it a variable.
+appendPageLinks function creates page links to dynamically filter through the student list.
 ***/
-function createElement(element) {
-   const elementName = document.createElement('element');
-   return elementName;
-}
 
 function appendPageLinks(list) {
-   div = createElement('div');
+   //create a div with the class name 'pagination' and store it int he div with the class of 'page'.
+   div = document.createElement('div');
    div.className = 'pagination';
+   const page = document.querySelector('.page');
+   page.appendChild(div);
+   //create a ul and store it in the newly made div.
+   ul = document.createElement('ul');
+   div.appendChild(ul);
+   //a for loop that creates list items with page links and appends them to them all to the ul
+   for (let i = 0; i < (Math.ceil(list.length / itemsPerPage)); i++) {
+      let li = document.createElement('li');
+      let a = document.createElement('a');
+      a.href = '#';
+      a.innerHTML = i + 1;
+      li.appendChild(a);
+      ul.appendChild(li);
+   }
+   //added the class of 'active' to the first link
+   ul.firstChild.firstChild.className = 'active';
+   //this is a for loop to add an eventlistener to each 'a' link
+   for (let i = 0; i < ul.childElementCount; i++) {
+      let a = document.querySelectorAll('a');
+      a[i].addEventListener('click', (event) => {
+         //this for loop removes the class 'active' from all links so it can be re-assigned later
+         for (let j = 0; j < ul.childElementCount; j++) {
+            let removeClassLinks = document.getElementsByTagName('a');
+            removeClassLinks[j].classList.remove('active');
+         }
+         //this assigns the clicked link to teh class of 'active' and calls the showPage function so the clicked link's corresponding set of students shows.
+         const clickedLink = event.target;
+         clickedLink.className = 'active';
+         showPage(studentList, clickedLink.textContent);
+      });
+   }
+   
 }
 
-console.log(appendPageLinks());
-
-
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+//here I call the functions to start on the first page
+showPage(studentList, 1);
+appendPageLinks(studentList);
