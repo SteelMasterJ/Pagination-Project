@@ -22,7 +22,6 @@ function showPage(list, page) {
       }
    }
 }
-const newLocal = '';
 
 
 /*** 
@@ -48,7 +47,8 @@ function appendPageLinks(list) {
       ul.appendChild(li);
    }
    //added the class of 'active' to the first link
-   ul.firstChild.firstChild.className = 'active';
+   ul.firstElementChild.firstElementChild.className = 'active';
+   
    //this is a for loop to add an eventlistener to each 'a' link
    for (let i = 0; i < ul.childElementCount; i++) {
       let a = document.querySelectorAll('a');
